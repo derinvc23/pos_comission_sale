@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Commission Tree View -->
+    <record id="view_pos_commission_tree" model="ir.ui.view">
+        <field name="name">pos.commission.tree</field>
+        <field name="model">pos.commission</field>
+        <field name="arch" type="xml">
+            <tree string="Comisiones">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <field name="origin"/>
+                <field name="amount"/>
+                <field name="commission_amount"/>
+                <field name="state"/>
+                <field name="payment_state"/>
+                <field name="date"/>
+                <field name="commission_type_id" optional="1"/>
+                <field name="commission_type_value" optional="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Commission Form View -->
+    <record id="view_pos_commission_form" model="ir.ui.view">
+        <field name="name">pos.commission.form</field>
+        <field name="model">pos.commission</field>
+        <field name="arch" type="xml">
+            <form string="Comisiones">
+                <header>
+                    <button name="action_create_supplier_invoice"
+                            string="Crear Factura"
+                            type="object"
+                            class="oe_highlight"
+                            invisible="state != 'confirmed' or invoice_id != False"
+                            groups="account.group_account_invoice"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="product_id"/>
+                            <field name="amount"/>
+                            <field name="commission_type_id"/>
+                        </group>
+                        <group>
+                            <field name="origin"/>
+                            <field name="liquidation_date"/>
+                            <field name="commission_amount"/>
+                            <field name="payment_state"/>
+                            <field name="date"/>
+                            <field name="invoice_id" readonly="1"
+                                   invisible="invoice_id == False"
+                                   groups="account.group_account_invoice"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Commission Search View -->
+    <record id="view_pos_commission_search" model="ir.ui.view">
+        <field name="name">pos.commission.search</field>
+        <field name="model">pos.commission</field>
+        <field name="arch" type="xml">
+            <search string="Search Commissions">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <separator/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Confirmed" name="confirmed" domain="[('state','=','confirmed')]"/>
+                <filter string="Pending Payment" name="pending" domain="[('payment_state','=','pending')]"/>
+                <filter string="Paid" name="paid" domain="[('payment_state','=','paid')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Agente" name="partner" context="{'group_by':'partner_id'}"/>
+                    <filter string="Estado" name="state" context="{'group_by':'state'}"/>
+                    <filter string="Estado de Pago" name="payment_state" context="{'group_by':'payment_state'}"/>
+                    <filter string="Fecha" name="date" context="{'group_by':'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Commission Action -->
+    <record id="action_pos_commission" model="ir.actions.act_window">
+        <field name="name">Comisiones</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pos.commission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_pos_commission_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first commission record!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_pos_commission"
+              name="Comisiones"
+              parent="menu_commission_pos"
+              action="action_pos_commission"
+              sequence="10"/>
+    
+</odoo>
