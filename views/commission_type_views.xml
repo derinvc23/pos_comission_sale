@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Commission Type Tree View -->
+    <record id="view_pos_commission_type_tree" model="ir.ui.view">
+        <field name="name">pos.commission.type.tree</field>
+        <field name="model">pos.commission.type</field>
+        <field name="arch" type="xml">
+            <tree string="Tipo de comisión">
+                <field name="name"/>
+                <field name="commission_type"/>
+                <field name="value"/>
+                <field name="active"/>
+                <field name="start_datetime"/>
+                <field name="end_datetime"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Commission Type Form View -->
+    <record id="view_pos_commission_type_form" model="ir.ui.view">
+        <field name="name">pos.commission.type.form</field>
+        <field name="model">pos.commission.type</field>
+        <field name="arch" type="xml">
+            <form string="Commission Type">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="name"/>
+                            <field name="commission_type"/>
+                            <field name="value"/>
+                        </group>
+                        <group>
+                            <field name="start_datetime"/>
+                            <field name="end_datetime"/>
+                            <field name="product_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Commission Type Action -->
+    <record id="action_pos_commission_type" model="ir.actions.act_window">
+        <field name="name">Tipos de comision</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pos.commission.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first commission type!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_pos_commission_type"
+              name="Tipos de comisión"
+              parent="menu_commission_management_pos"
+              action="action_pos_commission_type"
+              sequence="20"/>
+</odoo>

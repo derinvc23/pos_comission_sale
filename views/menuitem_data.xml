@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem
+        name="Agente"
+        id="menu_commission_pos"
+        sequence="50"
+        web_icon="pos_comission_sale/static/description/icon.png"
+    />
+    <menuitem
+        name="Configuración"
+        id="menu_commission_management_pos"
+        parent="menu_commission_pos"
+        sequence="100"
+    />
+</odoo>

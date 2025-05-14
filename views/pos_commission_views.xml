@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Acción de Reporte Masivo de Comisiones -->
+    <record id="action_report_commission_pdf" model="ir.actions.report">
+        <field name="name">Imprimir Comisiones</field>
+        <field name="model">pos.commission</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pos_comission_sale.reporte_comisiones_template</field>
+        <field name="report_file">pos_comission_sale.reporte_comisiones_template</field>
+        <field name="binding_model_id" ref="model_pos_commission"/>
+        <field name="binding_type">action</field>
+        <field name="print_report_name">'Comisiones - %s' % (object.name)</field>
+    </record>
+
+    <template id="reporte_comisiones_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2 style="text-align:center;">Reporte de Comisiones</h2>
+
+                    <table class="table table-sm table-bordered" style="width:100%; margin-top: 20px;">
+                        <thead>
+                            <tr style="background-color:#f0f0f0;">
+                                <th>Nombre</th>
+                                <th>Fecha</th>
+                                <th>Empleado</th>
+                                <th>Servicio</th>
+                                <th>Origen</th>
+                                <th>Monto</th>
+                                <th>Comisión (BS)</th> 
+                                <th>Comisión %</th>                               
+                                <th>Estado de Pago</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="commission">
+                                <tr>
+                                    <td>
+                                        <t t-esc="commission.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="commission.date"/>   
+                                    </td>
+                                    <td>
+                                        <t t-esc="commission.partner_id.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="commission.product_id.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="commission.origin"/>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <t t-esc="commission.amount"/>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <t t-esc="commission.commission_amount"/>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <t t-esc="'%.0f' % commission.commission_type_value + ' %'"/>
+
+                                    </td>
+                                    <td>
+                                        <span t-field="commission.payment_state"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

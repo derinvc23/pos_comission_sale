@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_partner_form_inherit_pos_agent" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.pos.agent</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <!--<xpath expr="//group[@name='preferences']" position="inside">
+                <field name="is_agent"/>
+            </xpath>-->
+            <xpath expr="//group/group[//field[@name='vat']]" position="inside">
+                <field name="is_agent" string="Agente"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="res_partner_view_search" model="ir.ui.view">
+        <field name="name">res.partner.select</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <filter name="inactive" position="before">
+                <filter
+                        string="Agente"
+                        name="is_agent"
+                        domain="[('is_agent', '=', 1)]"
+                        help="Agent Partners"
+                />
+                <separator/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="action_agent_pos_form" model="ir.actions.act_window">
+        <field name="name">Agentes</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,form,tree</field>
+        <field name="context">{"search_default_is_agent": 1, 'default_is_agent': 1}</field>
+        <field name="search_view_id" ref="res_partner_view_search"/>
+    </record>
+    <menuitem
+            id="menu_agent_pos_form"
+            parent="menu_commission_pos"
+            action="action_agent_pos_form"
+            sequence="10"
+    />
+</odoo>

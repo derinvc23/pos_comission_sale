@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_pos_order_line_form_inherit_agent" model="ir.ui.view">
+        <field name="name">pos.order.line.form.inherit.agent</field>
+        <field name="model">pos.order.line</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_line_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='price_unit']" position="after">
+                <field name="agent_partner_id"/>
+                <field name="commision_value_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_pos_pos_commision_form" model="ir.ui.view">
+        <field name="name">pos.order.view.form.inherit.commision</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="model">pos.order</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lines']/tree/field[@name='price_unit']"
+                   position="after">
+                <field name="agent_partner_id"/>
+                <field name="commision_value_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

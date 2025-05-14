@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension" owl="1">
+       <xpath expr="//ul[hasclass('info-list')]" position="inside">
+          <br/>
+           <t t-if="line.agent and line.commision_value">
+              <i class="fa fa-user"></i> Agente <strong><t t-esc="line.agent.name"/> <t t-esc="line.commision_value.name"/></strong>
+           </t>
+        </xpath>
+    </t>
+</templates>
